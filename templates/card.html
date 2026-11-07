@@ -1,0 +1,21 @@
+from flask import Flask, render_template
+
+app = Flask(__name__)
+
+cards = {
+    1: {"title": "Первая запись", "subtitle": "Подзаголовок", "text": "Текст записи"}
+}
+
+@app.route('/')
+def index():
+    return "Главная страница"
+
+@app.route('/card/<int:id>')
+def card_view(id):
+    card = cards.get(id)
+    if not card:
+        return "Не найдено", 404
+    return render_template('card.html', card=card)
+
+if __name__ == '__main__':
+    app.run(debug=True)
